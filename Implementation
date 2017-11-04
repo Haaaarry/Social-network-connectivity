@@ -27,7 +27,7 @@
     public void union(int p,int q){
         int rootP=root(p);
         int rootQ=root(q);
-        if(rootQ>rootP){
+        if(m_iSize[rootQ]>m_iSize[rootP]){
             m_iParent[rootP]=rootQ;
             m_iSize[rootQ]+=m_iSize[rootP];
             if(m_iSize[rootQ]>m_iMostUnionedSites)
