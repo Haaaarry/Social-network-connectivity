@@ -1,0 +1,85 @@
+这是一个典型的动态联通问题。
+1.目标，设计一个算法求出所有人联通的时间
+2.数据结构
+  -class WeightedQuickUnionUF{
+      private int m_iParent[N];
+      private int m_iSize[N]; 
+      private int m_iMostUnionedSites;
+      
+      public WeightedQuickUnionUF(int N){
+           m_iParent=new int [N];
+           m_iSize=new int [N];
+           for(int i=0;i<N;i++){
+              m_iParent[i]=i;
+              m_iSize[i]=1;
+           }
+           m_iMostUnionedSites=1;
+      }
+      
+      
+    private int root(int p){
+        while(m_iParent[p]!=p)
+            p=m_iParent[p];
+        return p;   
+    }
+    
+    
+    public void union(int p,int q){
+        int rootP=root(p);
+        int rootQ=root(q);
+        if(rootQ>rootP){
+            m_iParent[rootP]=rootQ;
+            m_iSize[rootQ]+=m_iSize[rootP];
+            if(m_iSize[rootQ]>m_iMostUnionedSites)
+                m_iMostUnionedSites=m_iSize[rootQ];
+        }
+        else{
+            m_iParent[rootQ]=rootP;
+            m_iSize[rootP]+=m_iSize[rootQ];
+            if(m_iSize[rootP]>m_iMostUnionedSites)
+                m_iMostUnionedSites=m_iSize[rootP];
+        }
+     }
+      
+   
+   pubulic int mostUnionedSites(){
+        return m_iMostUnionedSites;
+    }  
+  }
+3.实现
+      struct Log{
+          int p;
+          int q;
+          Time time;
+      };
+      class SocialNetwork{
+            Time timeAllMakeFriends;
+            WeightedQuickUnionUF uf;
+            int numberOfUsers;
+            
+            public SocialNetwork(int N){
+                uf=new WeightedQuickUnionUF(N);
+                timeAllMakeFriends=NULL;
+                numberOfUsers=N;
+            }
+            
+            
+            public boolean checkAllConnected(){
+                 int sites=uf. mostUnionedSites();
+                 return sites==numberOfUsers;
+            }
+            
+            
+            public void makeFriends(Log log){
+                 uf.union(log.p,log.q);
+                 timeAllMakeFriends=Log.time;
+            }
+            
+            
+            public Time TimeAllMakeFriends(){
+                 if(checkAllConnected()){
+                      return  timeAllMakeFriends;
+                 }
+                 return NULL;
+            }
+      }
